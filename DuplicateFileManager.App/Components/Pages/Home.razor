@@ -2,183 +2,208 @@
 @using DuplicateFileManager.Service.Models
 @using DuplicateFileManager.Service.Services
 @inject IFileManagerService FileManagerService
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Duplicate File Manager</PageTitle>
 <Accordion>
-  <AccordionItem Active="true">
-    <TitleTemplate>
-      <Icon Name="IconName.Search" Class="me-3" />Duplicate File Search
-    </TitleTemplate>
-    <Content>
-      <EditForm Model="@SearchRequest" FormName="searchForm" OnValidSubmit="@SearchSubmit">
-        <AntiforgeryToken/>
-        <DataAnnotationsValidator />
-        <div class="row mb-4">
-          <label for="directoryPathInput" class="col-2 form-label">Top Directory</label>
-          <InputText @bind-Value="SearchRequest!.DirectoryPath" id="directoryPathInput" class="col-10"/>
-          <ValidationMessage For="() => SearchRequest.DirectoryPath"/>
-        </div>
-        <h2>File Extensions</h2>
-        <p>File extensions to include in search for duplicate files.</p>
-        <div class="row gap-2 mb-4">
-          <div class="form-group col-2">
-            <h3>Application</h3>
-            @foreach(var extension in _applicationExtensions)
-            {
-              <div class="form-check">
-                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
-                <label class="form-check-label" for="@extension">
-                  @extension
-                </label>
-              </div>
-            }
-          </div>
-          <div class="form-group col-2">
-            <h3>Audio</h3>
-            @foreach(var extension in _audioExtensions)
-            {
-              <div class="form-check">
-                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
-                <label class="form-check-label" for="@extension">
-                  @extension
-                </label>
-              </div>
-            }
-          </div>
-          <div class="form-group col-2">
-            <h3>Image</h3>
-            @foreach(var extension in _imageExtensions)
-            {
-              <div class="form-check">
-                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
-                <label class="form-check-label" for="@extension">
-                  @extension
-                </label>
-              </div>
-            }
-          </div>
-          <div class="form-group col-2">
-            <h3>Video</h3>
-            @foreach(var extension in _videoExtensions)
-            {
-              <div class="form-check">
-                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
-                <label class="form-check-label" for="@extension">
-                  @extension
-                </label>
-              </div>
-            }
-          </div>
-          <div class="row">
-            <ValidationMessage For="() => SearchRequest.FileExtensions" />
-          </div>
-        </div>
-        <div class="row">
-          <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-      </EditForm>
-    </Content>
-  </AccordionItem>
-  <AccordionItem>
-    <TitleTemplate>
-      <Icon Name="IconName.ListCheck" Class="me-3" />Found Duplicates
-    </TitleTemplate>
-    <Content>
-      <EditForm Model="@DeleteRequest" FormName="duplicatesListForm" OnValidSubmit="@DeleteSubmit">
-        <AntiforgeryToken/>
-        <DataAnnotationsValidator />
-        <div>
-          @foreach (var file in Duplicates!)
-          {
-            <h3>@file.CommonFileName</h3>
-            @foreach (var filePath in file.FilePaths)
-            {
-              <div class="form-check">
-                <input type="checkbox" id="@filePath" Checked="@DeleteRequest!.FilePaths.Contains(@filePath)" OnChange="@(() => OnFileExtensionChanged(@filePath))" />
-                <label class="form-check-label" for="@filePath">
-                  @filePath
-                </label>
-              </div>
-            }
-          }
-        </div>
-      </EditForm>
-    </Content>
-  </AccordionItem>
+    <AccordionItem Active="true">
+        <TitleTemplate>
+            <Icon Name="IconName.Search" Class="me-3" />Duplicate File Search
+        </TitleTemplate>
+        <Content>
+            <EditForm Model="@SearchRequest" FormName="searchForm" OnValidSubmit="@SearchSubmit">
+                <AntiforgeryToken/>
+                <DataAnnotationsValidator />
+                <div class="row mb-4">
+                    <label for="directoryPathInput" class="col-2 form-label">Top Directory</label>
+                    <InputText @bind-Value="SearchRequest!.DirectoryPath" id="directoryPathInput" class="col-10"/>
+                    <ValidationMessage For="() => SearchRequest.DirectoryPath"/>
+                </div>
+                <h2>File Extensions</h2>
+                <p>File extensions to include in search for duplicate files.</p>
+                <div class="row gap-2 mb-4">
+                    <div class="form-group col-2">
+                        <h3>Application</h3>
+                        @foreach(var extension in _applicationExtensions)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
+                                <label class="form-check-label" for="@extension">
+                                    @extension
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group col-2">
+                        <h3>Audio</h3>
+                        @foreach(var extension in _audioExtensions)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
+                                <label class="form-check-label" for="@extension">
+                                    @extension
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group col-2">
+                        <h3>Image</h3>
+                        @foreach(var extension in _imageExtensions)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
+                                <label class="form-check-label" for="@extension">
+                                    @extension
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group col-2">
+                        <h3>Video</h3>
+                        @foreach(var extension in _videoExtensions)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="@extension" Checked="@SearchRequest.FileExtensions.Contains(@extension)" OnChange="@(() => OnFileExtensionChanged(@extension))" />
+                                <label class="form-check-label" for="@extension">
+                                    @extension
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <ValidationMessage For="() => SearchRequest.FileExtensions" />
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </EditForm>
+        </Content>
+    </AccordionItem>
+    <AccordionItem>
+        <TitleTemplate>
+            <Icon Name="IconName.ListCheck" Class="me-3" />Found Duplicates
+        </TitleTemplate>
+        <Content>
+            <EditForm Model="@DeleteRequest" FormName="duplicatesListForm" OnValidSubmit="@DeleteSubmit">
+                <AntiforgeryToken/>
+                <DataAnnotationsValidator />
+                <div class="mb-4">
+                    @foreach (var file in Duplicates!)
+                    {
+                        <h3>@file.CommonFileName</h3>
+                        @foreach (var filePath in file.FilePaths)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="@filePath" Checked="@DeleteRequest!.FilePaths.Contains(@filePath)" OnChange="@(() => OnFileExtensionChanged(@filePath))" />
+                                <label class="form-check-label" for="@filePath">
+                                    @filePath
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </EditForm>
+        </Content>
+    </AccordionItem>
 </Accordion>
+<ConfirmDialog @ref="dialog" />
+<div class="d-flex justify-content-center">
+    <Spinner Color="SpinnerColor.Primary" Visible="@isLoading" />
+</div>
+
 
 @code {
-  [SupplyParameterFromForm(FormName = "searchForm")]
-  private GetDuplicateFilesRequest? SearchRequest { get; set; }
-  
-  [SupplyParameterFromForm(FormName = "duplicatesListForm")]
-  private DeleteFilesRequest? DeleteRequest { get; set; }
+    [SupplyParameterFromForm(FormName = "searchForm")]
+    private GetDuplicateFilesRequest? SearchRequest { get; set; }
 
-  private List<DuplicateFileData> Duplicates { get; set; } = [];
+    [SupplyParameterFromForm(FormName = "duplicatesListForm")]
+    private DeleteFilesRequest? DeleteRequest { get; set; }
 
-  protected override void OnInitialized()
-  {
-    SearchRequest ??= new();
-    SearchRequest.FileExtensions.AddRange(_applicationExtensions);
-    SearchRequest.FileExtensions.AddRange(_audioExtensions);
-    SearchRequest.FileExtensions.AddRange(_imageExtensions);
-    SearchRequest.FileExtensions.AddRange(_videoExtensions);
-    
-    DeleteRequest ??= new();
-  }
+    private List<DuplicateFileData> Duplicates { get; set; } = [];
+    private ConfirmDialog dialog = default!;
+    private bool isLoading = false;
 
-  private async Task SearchSubmit()
-  {
-    try
+    protected override void OnInitialized()
     {
-      var fileList = await FileManagerService.GetDuplicateFiles(SearchRequest, CancellationToken.None);
-      Console.WriteLine("Found " + fileList.Count + " duplicates");
+        SearchRequest ??= new();
+        SearchRequest.FileExtensions.AddRange(_applicationExtensions);
+        SearchRequest.FileExtensions.AddRange(_audioExtensions);
+        SearchRequest.FileExtensions.AddRange(_imageExtensions);
+        SearchRequest.FileExtensions.AddRange(_videoExtensions);
 
-      Duplicates = fileList;
-      List<string> checkedFiles = [];
-    
-      foreach (var file in fileList)
-      {
-        checkedFiles.AddRange(file.FilePaths.Skip(1));
-      }
-    
-      DeleteRequest!.FilePaths.AddRange(checkedFiles);
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine(ex);
-    }
-  }
-  
-  private async Task DeleteSubmit()
-  {
-    await FileManagerService.DeleteFiles(DeleteRequest!, CancellationToken.None);
-  }
-
-  private void OnFileExtensionChanged(string extension)
-  {
-    if (SearchRequest!.FileExtensions.Contains(extension))
-    {
-      SearchRequest.FileExtensions.Remove(extension);
-      return;
+        DeleteRequest ??= new();
     }
 
-    SearchRequest.FileExtensions.Add(extension);
-  }
-  
-  private void OnDeleteFilePathChanged(string filePath)
-  {
-    if (DeleteRequest!.FilePaths.Contains(filePath))
+    private async Task SearchSubmit()
     {
-      DeleteRequest.FilePaths.Remove(filePath);
-      return;
+        isLoading = true;
+        var fileList = await FileManagerService.GetDuplicateFiles(SearchRequest, CancellationToken.None);
+
+        Duplicates = fileList;
+        List<string> checkedFiles = [];
+
+        foreach (var file in fileList)
+        {
+            checkedFiles.AddRange(file.FilePaths.Skip(1));
+        }
+
+        DeleteRequest!.FilePaths.AddRange(checkedFiles);
+        isLoading = false;
+    }
+
+    private async Task DeleteSubmit()
+    {
+        var confirmation = await dialog.ShowAsync(
+            title: "Delete Files",
+            message1: "This will permanently delete the selected files. Are you sure you want to continue?",
+            confirmDialogOptions: new ConfirmDialogOptions
+            {
+                NoButtonText = "Cancel",
+                YesButtonColor = ButtonColor.Danger
+            }
+        );
+
+        if (!confirmation)
+        {
+            return;
+        }
+
+        isLoading = true;
+
+        await FileManagerService.DeleteFiles(DeleteRequest!, CancellationToken.None);
+        await SearchSubmit();
+        
+        isLoading = false;
+    }
+
+    private void OnFileExtensionChanged(string extension)
+    {
+        if (SearchRequest!.FileExtensions.Contains(extension))
+        {
+            SearchRequest.FileExtensions.Remove(extension);
+            return;
+        }
+    
+        SearchRequest.FileExtensions.Add(extension);
     }
     
-    DeleteRequest.FilePaths.Add(filePath);
-  }
-
-  private readonly List<string> _applicationExtensions = [".doc", ".docx", ".txt", ".csv", ".pdf", ".zip"];
-  private readonly List<string> _audioExtensions = [".mp3", ".m4a", ".raw", ".wav", ".wma"];
-  private readonly List<string> _imageExtensions = [".jpg", ".jpeg", ".png", ".svg", ".heif", ".tiff"];
-  private readonly List<string> _videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".wmv"];
+    private void OnDeleteFilePathChanged(string filePath)
+    {
+        if (DeleteRequest!.FilePaths.Contains(filePath))
+        {
+            DeleteRequest.FilePaths.Remove(filePath);
+            return;
+        }
+        
+        DeleteRequest.FilePaths.Add(filePath);
+    }
+    
+    private readonly List<string> _applicationExtensions = [".doc", ".docx", ".txt", ".csv", ".pdf", ".zip"];
+    private readonly List<string> _audioExtensions = [".mp3", ".m4a", ".raw", ".wav", ".wma"];
+    private readonly List<string> _imageExtensions = [".jpg", ".jpeg", ".png", ".svg", ".heif", ".tiff"];
+    private readonly List<string> _videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".wmv"];
 }
