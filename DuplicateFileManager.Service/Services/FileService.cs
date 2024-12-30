@@ -6,7 +6,10 @@ namespace DuplicateFileManager.Service.Services;
 
 public class FileService : IFileService
 {
-    public void DeleteFile(string filePath) => File.Delete(filePath);
+    public void DeleteFile(string filePath) 
+    {
+        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(filePath, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+    }
 
     public string GetFileHash(string filePath)
     {

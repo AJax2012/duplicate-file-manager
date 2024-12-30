@@ -155,13 +155,22 @@
         DeleteRequest!.FilePaths.Clear();
         DeleteRequest!.FilePaths.AddRange(checkedFiles);
         isLoading = false;
+
+        if (fileList.Any())
+        {
+            await dialog.ShowAsync(
+                title: "Found Files",
+                message1: $"Found {fileList.Count.ToString()} files with {fileList.SelectMany(x => x.FilePaths).Count().ToString()} unique files.",
+                message2: "Please click on \"Found Duplicates\" to see all duplicate files."
+            );
+        }
     }
 
     private async Task DeleteSubmit()
     {
         var confirmation = await dialog.ShowAsync(
             title: "Delete Files",
-            message1: "This will permanently delete the selected files. Are you sure you want to continue?",
+            message1: "This will send all selected files to the Recycle Bin. Do you wish to continue?",
             confirmDialogOptions: new ConfirmDialogOptions
             {
                 NoButtonText = "Cancel",
