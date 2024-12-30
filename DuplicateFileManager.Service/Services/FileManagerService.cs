@@ -38,7 +38,7 @@ public class FileManagerService(IFileService fileService) : IFileManagerService
             .Where(x => x.Count() > 1)
             .Select(x => new DuplicateFileData(
                 Path.GetFileName(x.MaxBy(y => _duplicatedFileNameRegex.Replace(y.FilePath, string.Empty, Int32.MaxValue))!.FilePath),
-                x.Select(y => y.FilePath).OrderBy(y => y.Length).ToList()))
+                x.Select(y => y.FilePath).OrderBy(y => Path.GetDirectoryName(y)).ThenByDescending(y => Path.GetFileName(y)).ToList()))
             .OrderBy(x => x.CommonFileName)
             .ThenBy(x => x.FilePaths.Count)
             .ToList();
