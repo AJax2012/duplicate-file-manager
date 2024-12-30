@@ -143,7 +143,8 @@
         isLoading = true;
         var fileList = await FileManagerService.GetDuplicateFiles(SearchRequest, CancellationToken.None);
 
-        Duplicates = fileList;
+        Duplicates.Clear();
+        Duplicates.AddRange(fileList);
         List<string> checkedFiles = [];
 
         foreach (var file in fileList)
@@ -151,6 +152,7 @@
             checkedFiles.AddRange(file.FilePaths.Skip(1));
         }
 
+        DeleteRequest!.FilePaths.Clear();
         DeleteRequest!.FilePaths.AddRange(checkedFiles);
         isLoading = false;
     }
