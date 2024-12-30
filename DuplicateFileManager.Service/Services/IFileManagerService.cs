@@ -1,6 +1,6 @@
-using DuplicateFileManager.Serivce.Models;
+using DuplicateFileManager.Service.Models;
 
-namespace DuplicateFileManager.Serivce.Services;
+namespace DuplicateFileManager.Service.Services;
 
 public interface IFileManagerService
 {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DuplicateFileManager.Serivce.Models;
+namespace DuplicateFileManager.Service.Models;
 
 public class GetDuplicateFilesRequest
 {

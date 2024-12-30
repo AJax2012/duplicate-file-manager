@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DuplicateFileManager.Serivce.Services;
+namespace DuplicateFileManager.Service.Services;
 
 public class FileService : IFileService
 {

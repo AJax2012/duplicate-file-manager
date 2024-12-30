@@ -1,4 +1,4 @@
-﻿using DuplicateFileManager.Serivce.Services;
+﻿using DuplicateFileManager.Service.Services;
 
 using Microsoft.Extensions.Logging;
 

@@ -1,4 +1,4 @@
-namespace DuplicateFileManager.Serivce.Models;
+namespace DuplicateFileManager.Service.Models;
 
 public class DeleteFilesRequest
 {

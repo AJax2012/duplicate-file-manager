@@ -1,4 +1,4 @@
-namespace DuplicateFileManager.Serivce.Services;
+namespace DuplicateFileManager.Service.Services;
 
 public interface IFileService
 {

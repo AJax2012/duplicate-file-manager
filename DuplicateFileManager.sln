@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuplicateFileManager.App", "DuplicateFileManager.App\DuplicateFileManager.App.csproj", "{781B47F8-D29C-4C55-B56B-888D9931C01F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuplicateFileManager.Serivce", "DuplicateFileManager.Serivce\DuplicateFileManager.Serivce.csproj", "{F2227FE5-47DF-427D-A1F4-43FACC003D32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuplicateFileManager.Service", "DuplicateFileManager.Service\DuplicateFileManager.Service.csproj", "{F2227FE5-47DF-427D-A1F4-43FACC003D32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

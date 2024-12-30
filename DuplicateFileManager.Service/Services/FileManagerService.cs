@@ -1,9 +1,9 @@
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
-using DuplicateFileManager.Serivce.Models;
+using DuplicateFileManager.Service.Models;
 
-namespace DuplicateFileManager.Serivce.Services;
+namespace DuplicateFileManager.Service.Services;
 
 public class FileManagerService(IFileService fileService) : IFileManagerService
 {
